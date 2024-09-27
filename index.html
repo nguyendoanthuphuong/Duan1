@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QUẢN LÝ GIẢNG VIÊN</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', sans-serif;
+            background-color: #b7e7b4;
+            padding: 50px;
+        }
+        h1 {
+            text-align: center;
+        }
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(19, 14, 14, 0.1);
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .faculty-list {
+            margin-top: 20px;
+            max-width: 600px;
+            margin: 20px auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+        }
+        table, th, td {
+            border: 1px solid #150a0a;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>QUẢN LÝ GIẢNG VIÊN</h1>
+
+    <!-- Form Thêm/Sửa Giảng viên -->
+    <form id="faculty-form">
+        <h2>Giảng viên</h2>
+        <input type="text" id="faculty-id" placeholder="Mã Giảng viên" required>
+        <input type="text" id="faculty-name" placeholder="Tên Giảng viên" required>
+        <input type="text" id="faculty-department" placeholder="Bộ môn" required>
+        <input type="text" id="faculty-phone" placeholder="Số điện thoại" required>
+        <input type="email" id="faculty-email" placeholder="Email" required>
+        <button type="button" onclick="addFaculty()">Thêm Giảng viên</button>
+    </form>
+
+    <!-- Danh sách giảng viên -->
+    <div class="faculty-list">
+        <h2>Danh sách Giảng viên</h2>
+        <input type="text" id="search" placeholder="Tìm kiếm Giảng viên" onkeyup="searchFaculty()">
+        <table id="faculty-table">
+            <thead>
+                <tr>
+                    <th>Mã Giảng viên</th>
+                    <th>Tên Giảng viên</th>
+                    <th>Bộ môn</th>
+                    <th>Số điện thoại</th>
+                    <th>Email</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Các giảng viên sẽ được thêm ở đây -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        let facultyList = [];
+
+        function addFaculty() {
+            let id = document.getElementById('faculty-id').value;
+            let name = document.getElementById('faculty-name').value;
+            let department = document.getElementById('faculty-department').value;
+            let phone = document.getElementById('faculty-phone').value;
+            let email = document.getElementById('faculty-email').value;
+
+            if(id && name && department && phone && email) {
+                facultyList.push({ id, name, department, phone, email });
+                displayFaculty();
+                clearForm();
+            } else {
+                alert('Vui lòng nhập đủ thông tin!');
+            }
+        }
+
+        function deleteFaculty(index) {
+            facultyList.splice(index, 1);
+            displayFaculty();
+        }
+
+        function displayFaculty() {
+            const tableBody = document.querySelector('#faculty-table tbody');
+            tableBody.innerHTML = '';
+            facultyList.forEach((faculty, index) => {
+                tableBody.innerHTML += `
+                    <tr>
+                        <td>${faculty.id}</td>
+                        <td>${faculty.name}</td>
+                        <td>${faculty.department}</td>
+                        <td>${faculty.phone}</td>
+                        <td>${faculty.email}</td>
+                        <td>
+                            <button onclick="deleteFaculty(${index})">Xóa</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        function searchFaculty() {
+            const searchValue = document.getElementById('search').value.toLowerCase();
+            const filteredFaculty = facultyList.filter(faculty => 
+                faculty.name.toLowerCase().includes(searchValue) ||
+                faculty.id.toLowerCase().includes(searchValue)
+            );
+            displayFilteredFaculty(filteredFaculty);
+        }
+
+        function displayFilteredFaculty(filteredFaculty) {
+            const tableBody = document.querySelector('#faculty-table tbody');
+            tableBody.innerHTML = '';
+            filteredFaculty.forEach((faculty, index) => {
+                tableBody.innerHTML += `
+                    <tr>
+                        <td>${faculty.id}</td>
+                        <td>${faculty.name}</td>
+                        <td>${faculty.department}</td>
+                        <td>${faculty.phone}</td>
+                        <td>${faculty.email}</td>
+                        <td>
+                            <button onclick="deleteFaculty(${index})">Xóa</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        function clearForm() {
+            document.getElementById('faculty-form').reset();
+        }
+    </script>
+
+</body>
+</html>
