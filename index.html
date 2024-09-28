@@ -12,8 +12,13 @@
     body {
             font-family: 'Times New Roman', Times, serif;
             padding: 20px;
-            background-color: #dedede;
-            color: #040404;
+            background-image: url(https://images.unsplash.com/photo-1725652800358-ae3a752cfb68?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D);
+            margin: 0;
+            color: #410c25;
+            font-size: larger;
+            text-wrap: 5px;
+            font-weight: 200;
+            border-radius: 0%;
         }
         input {
             display: block;
@@ -34,10 +39,11 @@
         form {
             max-width: 600px;
             margin:auto;
-            background-color: #fff;
+            background-color: rgba(255, 255 , 255, 0.7);
             padding: 20px;
             box-shadow: 0 0 10px rgba(19, 14, 14, 0.1);
             border: #000000;
+            border-radius: 10px;
         }
         h1{
             font-family: 'Times New Roman', Times, serif;
@@ -49,6 +55,8 @@
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 10px;
+            color: rgb(34, 93, 144);
+            background-color: aliceblue;
         }
         table, th, td {
             border: 1px solid #150a0a;
@@ -57,18 +65,35 @@
             padding: 10px;
             text-align: left;
         }
+        label {
+      font-size: 16px;
+      color: #333;
+      display: block;
+      margin-bottom: 8px;
+        }
 </style>
 <body>
-    <h1>LOGIN</h1>
+    <h1>SIGN UP</h1>
     <form>
     <label for="username">Username</label>
         <input type="text" id="faculty-name" placeholder="Username" maxlength="255" required>
     <label for="password">Password</label>
         <input type="password" id="password" placeholder="Password" maxlength="255" required>
+        <button type="button" class="show-hide-btn" onclick="togglePassword()">Show/Hide</button>
+        <small class="hint">Password must be strong and no longer than 255 characters.</small>
     <label for="email">Email</label>
         <input type="text" id="faculty-email" placeholder="Email"required>
-        <button type="button" togglePassword()>Show/Hide</button>
+      
         <button type="button" addFaculty()>Add</button>
+        <div class="form-group">
+            <label for="role">Role</label>
+            <select id="role" name="role" required>
+              <option value="">Select a role</option>
+              <!-- Options will be dynamically generated from system data -->
+            </select>
+          </div>
+        </div>
+      
     </form>
     <div class="faculty-list"></div>
     <h2>List of User</h2>
@@ -162,6 +187,15 @@
     function clearForm() {
         document.getElementById('faculty-form').reset();
     }
+    const roles = ['Admin', 'User', 'Moderator']; // Example roles
+    const roleSelect = document.getElementById('role');
+
+    roles.forEach(role => {
+      const option = document.createElement('option');
+      option.value = role;
+      option.textContent = role;
+      roleSelect.appendChild(option);
+    });
     </script>
 
 </body>
